@@ -1,6 +1,8 @@
 require('dotenv').config();
 require('express-async-errors');
 
+const authRouter = require('./routes/authRoutes');
+
 // express
 const express = require('express');
 const app = express();
@@ -17,6 +19,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Get Wallet Balance');
 });
+
+app.use('/api/v1/auth', authRouter);
 
 const PORT = process.env.PORT || 8000;
 
