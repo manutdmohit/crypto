@@ -21,8 +21,8 @@ router.route('/all').get(getAllWalletAddresses);
 
 router
   .route('/:id')
-  .get(getWalletAddress)
-  .patch(updateWalletAddress)
-  .delete(deleteWalletAddresses);
+  .get(authenticateUser, getWalletAddress)
+  .patch(authenticateUser, updateWalletAddress)
+  .delete(authenticateUser, deleteWalletAddresses);
 
 module.exports = router;
