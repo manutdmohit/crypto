@@ -6,6 +6,7 @@ const {
   deleteWalletAddresses,
   getLoggedInUserWalletAddresses,
   updateWalletAddress,
+  getWalletCurrentBalanceForLoggedinUser,
 } = require('../controllers/walletController');
 
 const { authenticateUser } = require('../middleware/authentication');
@@ -16,6 +17,8 @@ router
   .route('/')
   .post(authenticateUser, addWalletAddress)
   .get(authenticateUser, getLoggedInUserWalletAddresses);
+
+router.get(/current/, authenticateUser, getWalletCurrentBalanceForLoggedinUser);
 
 router.route('/all').get(getAllWalletAddresses);
 
