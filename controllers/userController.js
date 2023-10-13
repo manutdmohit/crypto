@@ -30,6 +30,9 @@ exports.getSingleUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user });
 };
 
+// @desc Update User
+// @route /api/v1/users/:id
+// @access Private
 exports.updateUser = async (req, res) => {
   const { userId } = req.user;
 
@@ -50,6 +53,9 @@ exports.updateUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: tokenUser });
 };
 
+// @desc Get Wallet Balance for Logged in User
+// @route /api/v1/users/balance
+// @access Private
 exports.getWalletBalanceForLoggedinUser = async (req, res) => {
   const userId = req.user.userId;
 

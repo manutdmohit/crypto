@@ -6,6 +6,9 @@ const WalletBalance = require('../models/WalletBalance');
 
 const CustomError = require('../errors');
 
+// @desc Add Wallet Address
+// @route POST /api/v1/wallets
+// @access Private
 exports.addWalletAddress = async (req, res) => {
   const userId = req.user.userId;
 
@@ -52,6 +55,9 @@ exports.addWalletAddress = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ wallet });
 };
 
+// @desc Get Logged in User Wallet Addresses
+// @route GET /api/v1/wallets
+// @access Private
 exports.getLoggedInUserWalletAddresses = async (req, res) => {
   const user = req.user.userId;
 
@@ -64,15 +70,20 @@ exports.getLoggedInUserWalletAddresses = async (req, res) => {
   res.status(StatusCodes.OK).json({ count, wallets });
 };
 
+// @desc Get All Wallet Addresses
+// @route GET /api/v1/wallets/all
+// @access Private
 exports.getAllWalletAddresses = async (req, res) => {
-  // Reduce the line
   const wallets = await WalletAddress.find({})
     .select('address')
-    .sort('-createdAt');
+    .sort('-createdAt -updatedAt -__v');
 
   res.status(StatusCodes.OK).json({ wallets });
 };
 
+// @desc Get Single Wallet Address
+// @route GET /api/v1/wallets/:id
+// @access Private
 exports.getWalletAddress = async (req, res) => {
   const { id: walletId } = req.params;
 
@@ -84,8 +95,18 @@ exports.getWalletAddress = async (req, res) => {
     throw new CustomError.NotFoundError(`No wallet found with ID: ${walletId}`);
   }
 
+  if (req.user.userId !== wallet.user.toString()) {
+    throw new CustomError.UnauthorizedError(
+      'You are not authorized to access this wallet address'
+    );
+  }
+
   res.status(StatusCodes.OK).json({ wallet });
 };
+
+// @desc Update Wallet Address
+// @route PATCH /api/v1/wallets/:id
+// @access Private
 exports.updateWalletAddress = async (req, res) => {
   const { id: walletId } = req.params;
 
@@ -128,6 +149,9 @@ exports.updateWalletAddress = async (req, res) => {
   res.status(StatusCodes.OK).json({ wallet });
 };
 
+// @desc Delete Wallet Address
+// @route DELETE /api/v1/wallets/:id
+// @access Private
 exports.deleteWalletAddresses = async (req, res) => {
   const { id: walletId } = req.params;
 
