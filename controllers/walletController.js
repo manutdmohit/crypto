@@ -70,6 +70,19 @@ exports.getLoggedInUserWalletAddresses = async (req, res) => {
   res.status(StatusCodes.OK).json({ count, wallets });
 };
 
+// @desc Get Logged in User Wallet Current Balance
+// @route GET /api/v1/wallets/current
+// @access Private
+exports.getWalletCurrentBalanceForLoggedinUser = async (req, res) => {
+  const userId = req.user.userId;
+
+  const balances = await WalletBalance.find({ user: userId })
+    .sort('-createdAt')
+    .select('-timestamp -createdAt -updatedAt -__v');
+
+  res.status(StatusCodes.OK).json({ balances });
+};
+
 // @desc Get All Wallet Addresses
 // @route GET /api/v1/wallets/all
 // @access Private
