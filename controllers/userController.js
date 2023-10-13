@@ -7,7 +7,7 @@ const { StatusCodes } = require('http-status-codes');
 const { createTokenUser } = require('../utils');
 const {
   getwalletBalanceForLoggedinUser,
-} = require('../utility-scripts/changes');
+} = require('../utility-scripts/loggedinUserFetchBalance');
 
 exports.showCurrentLoggedInUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: req.user });
