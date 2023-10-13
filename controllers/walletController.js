@@ -131,11 +131,19 @@ exports.updateWalletAddress = async (req, res) => {
 exports.deleteWalletAddresses = async (req, res) => {
   const { id: walletId } = req.params;
 
-  const walletAddress = await WalletAddress.findOneAndDelete({ _id: walletId });
+  const walletAddress = await WalletAddress.findOne({ _id: walletId });
 
   if (!walletAddress) {
     throw new CustomError.NotFoundError(`No wallet found with ID: ${walletId}`);
   }
+
+  if (req.user.userId !== walletAddress.user.toString()) {
+    throw new CustomError.UnauthorizedError(
+      'You are not authorized to delete this wallet address'
+    );
+  }
+
+  await walletAddress.remove();
 
   res.status(StatusCodes.OK).json({ msg: 'Wallet Deleted Successfully' });
 };
