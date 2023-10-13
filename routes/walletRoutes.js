@@ -8,9 +8,14 @@ const {
   updateWalletAddress,
 } = require('../controllers/walletController');
 
+const { authenticateUser } = require('../middleware/authentication');
+
 const router = express.Router();
 
-router.route('/').post(addWalletAddress).get(getLoggedInUserWalletAddresses);
+router
+  .route('/')
+  .post(authenticateUser, addWalletAddress)
+  .get(authenticateUser, getLoggedInUserWalletAddresses);
 
 router.route('/all').get(getAllWalletAddresses);
 
