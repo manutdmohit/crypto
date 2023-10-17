@@ -17,11 +17,11 @@ MONGO_URI=Your_MongoDB_URI
 JWT_SECRET=YOUR_SECRET_KEY  
 JWT_LIFETIME=Your_JWT_LIFETIME  
 BNC_API_KEY=Your_API_KEY```
+```
 
 ## script
 ```
 node app.js  
 nodemon app.js
-  
 ```
 
